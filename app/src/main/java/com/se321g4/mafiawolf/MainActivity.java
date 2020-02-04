@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 database.push().setValue(thisUser);//pushes data to the FireBase database
                 Intent toLobby = new Intent(MainActivity.this, LobbyActivity.class);//creates the intent to switch to the lobby activity
                 toLobby.putExtra("lobbyPosition", lobbyCount);
-                startActivity(toLobby);//switches to the lobby activity
+                startActivity(toLobby);//switches to the lobby activity for the game
             }
         });//runs the code inside the block once the button is pressed
 
