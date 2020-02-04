@@ -3,6 +3,7 @@ package com.se321g4.mafiawolf;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button playGame;//Play Game button
     EditText userName;//user name text box
     User thisUser;//user object
+    int lobbyCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +38,36 @@ public class MainActivity extends AppCompatActivity {
         playGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userName = findViewById(R.id.userName);//c
+                userName = findViewById(R.id.userName);//takes the text input by the user and assigns it to the user object as its name
                 thisUser = new User(userName.getText().toString());
-                database.push().setValue(thisUser);//pushes data to the FireBase database
 
                 playerCount.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String helothere = dataSnapshot.getValue().toString();
-                        playerCount.setValue(Integer.parseInt(helothere) + 1);
+                        lobbyCount = Integer.parseInt(dataSnapshot.getValue().toString());
+
+                        if(lobbyCount == 0){
+                            thisUser.setVIP(true);
+                            if(thisUser.getVIP()){
+                                Toast.makeText(getApplicationContext(),"im a vip", Toast.LENGTH_LONG).show();
+                            }
+                        }//makes the user the VIP (game host) if they're the first to log in
+
+                        playerCount.setValue(lobbyCount + 1);
+
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
-                });
+                });//Event Listener for database. This updates the count every time a client of the app adds an user to FireBase
+
+                database.push().setValue(thisUser);//pushes data to the FireBase database
+                Intent toLobby = new Intent(MainActivity.this, LobbyActivity.class);//creates the intent to switch to the lobby activity
+                toLobby.putExtra("lobbyPosition", lobbyCount);
+                startActivity(toLobby);//switches to the lobby activity
             }
-        });
+        });//runs the code inside the block once the button is pressed
 
     }
 }
