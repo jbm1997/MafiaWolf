@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("/Players");//allows the app to access the FireBase database
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button playGame;//Play Game button
     EditText userName;//user name text box
     User thisUser;//user object
-    int lobbyCount;
+    int lobbyCount = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
                 playerCount.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        lobbyCount = Integer.parseInt(dataSnapshot.getValue().toString());
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//Allows the program to check for the player count
+                        lobbyCount = dataSnapshot.getValue(Integer.class);
 
                         if(lobbyCount == 0){
                             thisUser.setVIP(true);
                             if(thisUser.getVIP()){
-                                Toast.makeText(getApplicationContext(),"im a vip", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"You're the VIP", Toast.LENGTH_LONG).show();
                             }
                         }//makes the user the VIP (game host) if they're the first to log in
 
-                        playerCount.setValue(lobbyCount + 1);
-
+                        playerCount.setValue(++lobbyCount);
+                        database.child("Player" + (lobbyCount)).setValue(thisUser);//pushes data to the FireBase database
                     }
 
                     @Override
@@ -62,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });//Event Listener for database. This updates the count every time a client of the app adds an user to FireBase
 
-                database.push().setValue(thisUser);//pushes data to the FireBase database
                 Intent toLobby = new Intent(MainActivity.this, LobbyActivity.class);//creates the intent to switch to the lobby activity
                 toLobby.putExtra("lobbyPosition", lobbyCount);
                 startActivity(toLobby);//switches to the lobby activity for the game
             }
+
         });//runs the code inside the block once the button is pressed
 
     }

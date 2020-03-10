@@ -7,13 +7,10 @@ package com.se321g4.mafiawolf;
 * their role (Civilian = 0, Seer = 1, Doctor = 2, Wolf = 3) is declared post-initialization.
 */
 
-/*import android.os.Parcel;
-import android.os.Parcelable;*/
-
-public class User{ //implements Parcelable { //Parcelable is an implementation that allows a custom object to be passed between intents in Android Studio
+public class User{
     private String name;
     private int role;
-    private boolean isVIP = false;
+    private boolean isVIP;
 
     User(String name){
         this.name = name;
@@ -39,10 +36,4 @@ public class User{ //implements Parcelable { //Parcelable is an implementation t
     public void setVIP(boolean vip){
         isVIP = vip;
     }//setVIP
-
-/*    public void writeToParcel(Parcel out, int flags){
-        out.writeString(name);
-        out.writeInt(role);
-        out.writeBoolean(isVIP);
-    }*/
 }
