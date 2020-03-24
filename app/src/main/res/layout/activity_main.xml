@@ -11,31 +11,34 @@
         android:layout_width="187dp"
         android:layout_height="72dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="11dp"
         android:text="   Wolf Game"
         android:textAllCaps="false"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintBottom_toTopOf="@+id/playerIcon"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473"
         tools:text="   Wolf Game" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="213dp"
-        android:layout_height="260dp"
+    <ImageButton
+        android:id="@+id/playerIcon"
+        android:layout_width="102dp"
+        android:layout_height="98dp"
         android:layout_marginStart="99dp"
         android:layout_marginLeft="99dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="99dp"
         android:layout_marginRight="99dp"
         android:layout_marginBottom="34dp"
+        android:clickable="true"
+        android:src='@drawable/icon1'
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
         app:srcCompat="@mipmap/ic_launcher"
         tools:srcCompat="@tools:sample/avatars[12]" />
 
@@ -49,7 +52,6 @@
         android:layout_marginEnd="115dp"
         android:layout_marginRight="115dp"
         android:layout_marginBottom="146dp"
-        android:onClick="goToLobby"
         android:text="Play Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/playerIcon" />
 
     <EditText
         android:id="@+id/userName"
@@ -89,5 +91,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="177dp"
+        android:layout_marginLeft="177dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginRight="175dp"
+        android:layout_marginBottom="16dp"
+        android:text="Choose an Avatar!"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/playerIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:text="Choose an Avatar!"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
