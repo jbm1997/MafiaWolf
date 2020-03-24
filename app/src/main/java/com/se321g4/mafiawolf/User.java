@@ -10,7 +10,8 @@ package com.se321g4.mafiawolf;
 public class User{
     private String name;
     private int role;
-    private boolean isVIP;
+    private int readyState;
+    private int icon = 1;
 
     User(String name){
         this.name = name;
@@ -25,15 +26,27 @@ public class User{
         return role;
     }//getRole
 
-    public boolean getVIP(){
-        return isVIP;
-    }//getVIP
+    public int getIcon() {
+        return icon;
+    }
+
+    public int getReadyState(){
+        return readyState;
+    }//getReadyState
 
     public void setRole(int role){
         this.role = role;
     }//setRole
 
-    public void setVIP(boolean vip){
-        isVIP = vip;
-    }//setVIP
+    public void setReadyState(int readyState){
+        this.readyState = readyState;
+    }//setReadyState
+
+    public void setIcon(int icon){
+        this.icon = icon;
+    }//setIcon
+
+    public void setName(String name){
+        this.name = name;
+    }//setIcon
 }
