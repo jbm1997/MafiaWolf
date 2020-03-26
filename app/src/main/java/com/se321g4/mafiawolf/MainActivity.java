@@ -46,22 +46,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(currentPic == 1){
-                    changePic.setImageResource(R.drawable.icon2);
+                    changePic.setImageResource(R.drawable.Icon2);
                     currentPic = 2;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else if(currentPic == 2){
-                    changePic.setImageResource(R.drawable.icon3);
+                    changePic.setImageResource(R.drawable.Icon3);
                     currentPic = 3;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else if(currentPic == 3){
-                    changePic.setImageResource(R.drawable.icon4);
+                    changePic.setImageResource(R.drawable.Icon4);
                     currentPic = 4;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else{
-                    changePic.setImageResource(R.drawable.icon1);
+                    changePic.setImageResource(R.drawable.Icon1);
                     currentPic = 1;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
