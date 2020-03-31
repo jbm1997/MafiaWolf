@@ -23,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference playerCount = FirebaseDatabase.getInstance().getReference().child("/Count");//allows the app to access the FireBase database
 
 
-    Button playGame;//Play Game button
-    ImageButton changePic;
-    EditText userName;//user name text box
-    User thisUser;//user object
-    int lobbyCount = 1;
-    int currentPic = 1;
+    private Button playGame;//Play Game button
+    private ImageButton changePic;
+    private EditText userName;//user name text box
+    private User thisUser;//user object
+    private int lobbyCount = 1;
+    private int currentPic = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +46,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(currentPic == 1){
-                    changePic.setImageResource(R.drawable.Icon2);
-                    currentPic = 2;
+                    changePic.setImageResource(R.drawable.playericon2);
+                    currentPic++;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else if(currentPic == 2){
-                    changePic.setImageResource(R.drawable.Icon3);
-                    currentPic = 3;
+                    changePic.setImageResource(R.drawable.playericon3);
+                    currentPic++;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else if(currentPic == 3){
-                    changePic.setImageResource(R.drawable.Icon4);
-                    currentPic = 4;
+                    changePic.setImageResource(R.drawable.playericon4);
+                    currentPic++;
+                    thisUser.setIcon(currentPic);//passes the icon information as an int
+                }
+                else if(currentPic == 4){
+                    changePic.setImageResource(R.drawable.playericon5);
+                    currentPic++;
+                    thisUser.setIcon(currentPic);//passes the icon information as an int
+                }
+                else if(currentPic == 5){
+                    changePic.setImageResource(R.drawable.playericon6);
+                    currentPic++;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
                 else{
-                    changePic.setImageResource(R.drawable.Icon1);
+                    changePic.setImageResource(R.drawable.playericon1);
                     currentPic = 1;
                     thisUser.setIcon(currentPic);//passes the icon information as an int
                 }
@@ -81,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
                         lobbyCount = dataSnapshot.getValue(Integer.class);
 
                         if(lobbyCount == 0){
-                            thisUser.setReadyState(2);//User is VIP
-                            if(thisUser.getReadyState() == 2){
+                            thisUser.setPoll(2);//User is VIP
+                            if(thisUser.getPoll() == 2){
                                 Toast.makeText(getApplicationContext(),"You're the VIP", Toast.LENGTH_LONG).show();
                             }
                         }//makes the user the VIP (game host) if they're the first to log in
                         else{
-                            thisUser.setReadyState(0);//user is NOT ready
+                            thisUser.setPoll(0);//user is NOT ready
                         }
 
                         playerCount.setValue(++lobbyCount);
@@ -108,3 +118,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+

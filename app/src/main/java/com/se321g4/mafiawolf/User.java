@@ -10,7 +10,7 @@ package com.se321g4.mafiawolf;
 public class User{
     private String name;
     private int role;
-    private int readyState;
+    private int poll;
     private int icon = 1;
 
     User(String name){
@@ -30,16 +30,16 @@ public class User{
         return icon;
     }
 
-    public int getReadyState(){
-        return readyState;
+    public int getPoll(){
+        return poll;
     }//getReadyState
 
     public void setRole(int role){
         this.role = role;
     }//setRole
 
-    public void setReadyState(int readyState){
-        this.readyState = readyState;
+    public void setPoll(int poll){
+        this.poll = poll;
     }//setReadyState
 
     public void setIcon(int icon){
