@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private Button playGame;//Play Game button
     private ImageButton changePic;
     private EditText userName;//user name text box
-    private User thisUser;//user object
-    private int lobbyCount = 1;
+    public static User thisUser;//user object
+    private int lobbyCount = 0;
     private int currentPic = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +103,16 @@ public class MainActivity extends AppCompatActivity {
 
                         playerCount.setValue(++lobbyCount);
                         database.child("Player" + (lobbyCount)).setValue(thisUser);//pushes data to the FireBase database
+
+                        Intent toWait = new Intent(MainActivity.this, WaitActivity.class);//creates the intent to switch to the wait activity
+                        toWait.putExtra("lobbyPosition", lobbyCount);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                        startActivity(toWait);//switches to the wait activity for the game
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });//Event Listener for database. This updates the count every time a client of the app adds an user to FireBase
-
-                Intent toWait = new Intent(MainActivity.this, WaitActivity.class);//creates the intent to switch to the wait activity
-                toWait.putExtra("lobbyPosition", lobbyCount);
-                startActivity(toWait);//switches to the wait activity for the game
             }
 
         });//runs the code inside the block once the button is pressed
