@@ -59,34 +59,35 @@
         app:layout_constraintTop_toBottomOf="@+id/VIP_role_box"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="92dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="643dp"
-        android:layout_marginBottom="40dp"
-        android:text="Ready"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/StartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="193dp"
-        android:layout_marginLeft="193dp"
-        android:layout_marginTop="598dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginRight="23dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="507dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:layout_marginBottom="52dp"
         android:text="Start"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/switch1"
+        app:layout_constraintTop_toBottomOf="@+id/Wait_box" />
+
+    <Button
+        android:id="@+id/playerReady"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="507dp"
+        android:layout_marginEnd="191dp"
+        android:layout_marginRight="191dp"
+        android:layout_marginBottom="52dp"
+        android:text="Ready"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/StartButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Wait_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
