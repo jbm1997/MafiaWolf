@@ -1,26 +1,21 @@
 package com.se321g4.mafiawolf;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ReadyActivity extends AppCompatActivity {
+public class DiscussionActivity extends AppCompatActivity {
 
     private int lobbyPosition;
     private Button ReadyButton;//Ready button
@@ -39,7 +34,7 @@ public class ReadyActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);;//allows the app to access the FireBase database*/
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ready);
+        setContentView(R.layout.activity_discussion);
         ReadyButton = findViewById(R.id.ReadyButton);//initializes the Play Game button
         roleIcon = findViewById(R.id.imageView3);
         roleName = findViewById(R.id.RoleName);
