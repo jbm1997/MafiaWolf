@@ -24,18 +24,21 @@ public class WaitActivity extends AppCompatActivity {
     private TextView vip;
     public int checkR;        // this checks that readyplayers is only icr once in DB
     private int c;                 // provides count of players from db
+    private  int gameState =1;
     private int readyAmount = 0;   //provide how many players are ready in the DB
     DatabaseReference database;
     DatabaseReference databaseCount;
     DatabaseReference readyC;
+    DatabaseReference gameS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         lobbyPosition = getIntent().getIntExtra("lobbyPosition", 1);
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);
         databaseCount = FirebaseDatabase.getInstance().getReference().child("Count");     // total # of players
         readyC = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");  //references how many players are ready
-
+        gameS = FirebaseDatabase.getInstance().getReference().child("/GameState");
         Toast.makeText(getApplicationContext(), Integer.toString(lobbyPosition), Toast.LENGTH_LONG).show();
 
         super.onCreate(savedInstanceState);
@@ -43,7 +46,7 @@ public class WaitActivity extends AppCompatActivity {
 
         startGame = findViewById(R.id.StartButton);     //intialize buttons
         startGame.setEnabled(false);
-         ready = findViewById(R.id.playerReady);
+        ready = findViewById(R.id.playerReady);
         vip = findViewById(R.id.VIP_role_box);
 
 
@@ -76,6 +79,8 @@ public class WaitActivity extends AppCompatActivity {
             }
         });
 
+
+
         ready.setOnClickListener(new View.OnClickListener() {           // button sets non-vip pol val to 1
             @Override
             public void onClick(View v) {
@@ -103,6 +108,7 @@ public class WaitActivity extends AppCompatActivity {
                 Intent toReady = new Intent(WaitActivity.this, ReadyActivity.class);//creates the intent to switch to the wait activity
                 toReady.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                 startActivity(toReady);//switches to the wait activity for the game
+                gameS.setValue(gameState);
             }//executes code on click
         });//listens for clicks on the button
 

@@ -64,7 +64,7 @@ public class ReadyActivity extends AppCompatActivity {
 
         //Used for setting Role icon in layout, based on assigned player role
         if(roleNum == 0){
-            roleIcon.setImageResource(R.drawable.roleciv);
+           // roleIcon.setImageResource(R.drawable.roleciv);
             roleName.setText("Civilian");
 
             //currentPic = 4;
@@ -79,7 +79,7 @@ public class ReadyActivity extends AppCompatActivity {
             });
         }
         else if(roleNum == 1){
-            roleIcon.setImageResource(R.drawable.rolewolf);
+            //roleIcon.setImageResource(R.drawable.rolewolf);
             roleName.setText("Werewolf");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
@@ -92,7 +92,7 @@ public class ReadyActivity extends AppCompatActivity {
             });
         }
         else if(roleNum == 2){
-            roleIcon.setImageResource(R.drawable.rolecop);
+            //roleIcon.setImageResource(R.drawable.rolecop);
             roleName.setText("Sheriff");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
@@ -105,7 +105,7 @@ public class ReadyActivity extends AppCompatActivity {
             });
         }
         else{
-            roleIcon.setImageResource(R.drawable.rolemed);
+            //roleIcon.setImageResource(R.drawable.rolemed);
             roleName.setText("Doctor");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
