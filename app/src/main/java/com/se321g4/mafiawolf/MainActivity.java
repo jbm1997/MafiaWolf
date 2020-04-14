@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         playerCount.setValue(++lobbyCount);
                         database.child("Player" + (lobbyCount)).setValue(thisUser);//pushes data to the FireBase database
 
-                        Intent toWait = new Intent(MainActivity.this, WaitActivity.class);//creates the intent to switch to the wait activity
+                        Intent toWait = new Intent(MainActivity.this, ReadyActivity.class);//creates the intent to switch to the wait activity
                         toWait.putExtra("lobbyPosition", lobbyCount);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                         startActivity(toWait);//switches to the wait activity for the game
                     }
