@@ -2,6 +2,7 @@ package com.se321g4.mafiawolf;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,17 +22,18 @@ public class DiscussionActivity extends AppCompatActivity {
     private Button ReadyButton;//Ready button
     private ImageButton roleIcon;
     private TextView roleName;
-    private int roleNum; //stores player role
-    private ArrayList<Integer> Roles = new ArrayList<>(); //list of numbers representing roles
-    private int check = 0; //used to ensure we initialize Roles list only once
-    private String playerName;
+    private int check = 0; //
+    private  int gameState =2;
     DatabaseReference database;
+    DatabaseReference gameS;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        lobbyPosition = getIntent().getIntExtra("lobbyPosition", 0);
-        database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);;//allows the app to access the FireBase database*/
+        lobbyPosition = getIntent().getIntExtra("lobbyPosition", 1);
+        database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);
+        gameS = FirebaseDatabase.getInstance().getReference().child("/GameState");
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
@@ -39,27 +41,13 @@ public class DiscussionActivity extends AppCompatActivity {
         roleIcon = findViewById(R.id.imageView3);
         roleName = findViewById(R.id.RoleName);
 
-        if(check == 0) { //add our role numbers to list
-            Roles.add(0);
-            Roles.add(1);
-            Roles.add(2);
-            Roles.add(3);
-        }
-        check++;
-
-        Random rNumber = new Random();
-        int i;
-        i = rNumber.nextInt(Roles.size());  //Receive Random Index based on size of list
-        roleNum = Roles.get(i);  //get value at index
-
-        MainActivity.thisUser.setRole(roleNum); //set the player role
-        database.child("role").setValue(roleNum);//updates player role in database
-        Roles.remove(roleNum); //remove role from list, cannot be assigned to another player
-
 
         //Used for setting Role icon in layout, based on assigned player role
-        if(roleNum == 0){
-           // roleIcon.setImageResource(R.drawable.roleciv);
+        if(check == 0){
+            check++;
+            roleIcon.setImageResource(R.drawable.roleciv);
+            MainActivity.thisUser.setRole(check); //set the player role
+            database.child("role").setValue(check);//updates player role in database
             roleName.setText("Civilian");
 
             //currentPic = 4;
@@ -73,8 +61,11 @@ public class DiscussionActivity extends AppCompatActivity {
                 }
             });
         }
-        else if(roleNum == 1){
-            //roleIcon.setImageResource(R.drawable.rolewolf);
+        else if(check == 1){
+            check++;
+            roleIcon.setImageResource(R.drawable.rolewolf);
+            MainActivity.thisUser.setRole(check); //set the player role
+            database.child("role").setValue(check);//updates player role in database
             roleName.setText("Werewolf");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
@@ -86,8 +77,11 @@ public class DiscussionActivity extends AppCompatActivity {
                 }
             });
         }
-        else if(roleNum == 2){
-            //roleIcon.setImageResource(R.drawable.rolecop);
+        else if(check == 2){
+            check++;
+            roleIcon.setImageResource(R.drawable.rolecop);
+            MainActivity.thisUser.setRole(check); //set the player role
+            database.child("role").setValue(check);//updates player role in database
             roleName.setText("Sheriff");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
@@ -100,7 +94,10 @@ public class DiscussionActivity extends AppCompatActivity {
             });
         }
         else{
-            //roleIcon.setImageResource(R.drawable.rolemed);
+            check++;
+            roleIcon.setImageResource(R.drawable.rolemed);
+            MainActivity.thisUser.setRole(check); //set the player role
+            database.child("role").setValue(check);//updates player role in database
             roleName.setText("Doctor");
             //currentPic = 2;
             //MainActivity.thisUser.setIcon(2);
@@ -118,9 +115,13 @@ public class DiscussionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(1); //User is Ready
+                database.child("poll").setValue(1);
                 Toast.makeText(getApplicationContext(),MainActivity.thisUser.getName()+" Is Ready!", Toast.LENGTH_SHORT).show();
                 if(check == 4){
-                    //Go to Next Activity
+                    Intent toVote = new Intent(DiscussionActivity.this, VoteActivity.class);//creates the intent to switch to the vote activity
+                    toVote.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                    startActivity(toVote);//switches to the vote activity for the game
+                    gameS.setValue(gameState);
                 }
             }
         });
