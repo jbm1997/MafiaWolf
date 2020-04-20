@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button playGame;//Play Game button
     private ImageButton changePic;
     private EditText userName;//user name text box
-    public static User thisUser;//user object
+    public static User thisUser = new User(null);//user object
     private int lobbyCount = 0;
     private int currentPic = 1;
 
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         playGame = findViewById(R.id.playGameButton);//initializes the Play Game button
         changePic = findViewById(R.id.playerIcon);
-        thisUser = new User(null);
 
 
         changePic.setOnClickListener(new View.OnClickListener() {

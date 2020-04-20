@@ -54,7 +54,10 @@ public class ReadyActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 readyAmount = dataSnapshot.getValue(Integer.class);
-                if( readyAmount ==  (c - 1))
+                if(readyAmount == 1 && c == 1){
+                    startGame.setEnabled(true);
+                }
+                else if( readyAmount ==  (c - 1))
                 {
                     startGame.setEnabled(true);
                 }
@@ -89,25 +92,26 @@ public class ReadyActivity extends AppCompatActivity {
                     readyC.setValue(x);               //adds ready user
                     MainActivity.thisUser.setPoll(1);    //changes specific user status
                     database.child("poll").setValue(val);     // updates db
-                     ready.setVisibility(View.INVISIBLE);
+                    ready.setVisibility(View.INVISIBLE);
+                    startGame.setVisibility(View.VISIBLE);
                 }
 
             }//executes code on click
         });//listens for clicks on the button
 
-        if (MainActivity.thisUser.getPoll() == 2)       //if the user is the VIP it will show the Start button
+        if(MainActivity.thisUser.getPoll() == 2)       //if the user is the VIP it will show the Start button
         {
             startGame.setVisibility(View.VISIBLE);
         }
 
-
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toReady = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
-                toReady.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
-                startActivity(toReady);//switches to the wait activity for the game
+                Intent toDiscussion = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
+                toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                toDiscussion.putExtra("playerCount", c);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                 gameS.setValue(gameState);
+                startActivity(toDiscussion);//switches to the wait activity for the game
             }//executes code on click
         });//listens for clicks on the button
 
