@@ -53,10 +53,28 @@ public class ReadyActivity extends AppCompatActivity {
         }
 
 
+        gameS.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(Integer.class) == 1){
+                    Intent toDiscussion = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
+                    toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                    toDiscussion.putExtra("playerCount", count);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                    gameS.setValue(gameState);
+                    startActivity(toDiscussion);//switches to the wait activity for the game
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
         readyC.addValueEventListener(new ValueEventListener() {                //when a player is ready, the lobby checks if all players are ready
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(readyAmount == 3)
+                readyAmount = dataSnapshot.getValue(Integer.class);
+                if(readyAmount == 3 && lobbyPosition == 1)
                 {
                     startGame.setEnabled(true);
                 }
@@ -71,7 +89,6 @@ public class ReadyActivity extends AppCompatActivity {
         databaseCount.addValueEventListener(new ValueEventListener() {     //gets count of players
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 count =  Integer.parseInt(dataSnapshot.getValue().toString());
                 //Toast.makeText(getApplicationContext(), Integer.toString(rc) , Toast.LENGTH_LONG).show();
             }
@@ -86,13 +103,12 @@ public class ReadyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int val = 1;
-                if (MainActivity.thisUser.getPoll() != 1 || MainActivity.thisUser.getPoll() != 2) {
-                       int x = readyAmount + 1;
-                    readyC.setValue(x);               //adds ready user
-                    MainActivity.thisUser.setPoll(1);    //changes specific user status
-                    database.child("poll").setValue(val);     // updates db
-                    ready.setVisibility(View.INVISIBLE);
-                }
+                int x = readyAmount + 1;
+
+                readyC.setValue(x);               //adds ready user
+                MainActivity.thisUser.setPoll(1);    //changes specific user status
+                database.child("poll").setValue(val);     // updates db
+                ready.setVisibility(View.INVISIBLE);
 
             }//executes code on click
         });//listens for clicks on the button

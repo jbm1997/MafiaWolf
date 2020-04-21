@@ -33,6 +33,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private int check = 0; //used to ensure we initialize Roles list only once
     private DatabaseReference database;
     private DatabaseReference checkReady;
+    private DatabaseReference gameState;
 
 
     @Override
@@ -41,6 +42,7 @@ public class DiscussionActivity extends AppCompatActivity {
         playerCount  = getIntent().getIntExtra("playerCount", 0);
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);//allows the app to access the FireBase database*/
         checkReady = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");
+        gameState = FirebaseDatabase.getInstance().getReference().child("/GameState");
         checkReady.setValue(0);
 
         super.onCreate(savedInstanceState);
@@ -48,6 +50,22 @@ public class DiscussionActivity extends AppCompatActivity {
         ReadyButton = findViewById(R.id.ReadyButton);//initializes the Play Game button
         roleIcon = findViewById(R.id.imageView3);
         roleName = findViewById(R.id.RoleName);
+
+        gameState.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(Integer.class) == 2){
+                    Intent toVoting = new Intent(DiscussionActivity.this, VotingActivity.class);//creates the intent to switch to the wait activity
+                    toVoting.putExtra("lobbyPosition", lobbyPosition);//stores the number of players and passes it to the next activity
+                    toVoting.putExtra("lobbyCount", playerCount);//stores the number of players and passes it to the next activity
+                    startActivity(toVoting);//switches to the wait activity for the game
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         checkReady.addValueEventListener(new ValueEventListener() {
             @Override
