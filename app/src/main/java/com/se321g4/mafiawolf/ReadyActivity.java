@@ -22,7 +22,7 @@ public class ReadyActivity extends AppCompatActivity {
     private  Button ready;
     private TextView vip;
     public int checkR;        // this checks that readyplayers is only icr once in DB
-    private int c;                 // provides count of players from db
+    private int count;                 // provides count of players from db
     private  int gameState =1;
     private int readyAmount = 0;   //provide how many players are ready in the DB
     DatabaseReference database;
@@ -48,16 +48,15 @@ public class ReadyActivity extends AppCompatActivity {
         ready = findViewById(R.id.playerReady);
         vip = findViewById(R.id.VIP_role_box);
 
+        if(lobbyPosition == 1){
+            ready.setVisibility(View.INVISIBLE);
+        }
+
 
         readyC.addValueEventListener(new ValueEventListener() {                //when a player is ready, the lobby checks if all players are ready
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                readyAmount = dataSnapshot.getValue(Integer.class);
-                if(readyAmount == 1 && c == 1){
-                    startGame.setEnabled(true);
-                }
-                else if( readyAmount ==  (c - 1))
+                if(readyAmount == 3)
                 {
                     startGame.setEnabled(true);
                 }
@@ -73,7 +72,7 @@ public class ReadyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                c =  Integer.parseInt(dataSnapshot.getValue().toString());
+                count =  Integer.parseInt(dataSnapshot.getValue().toString());
                 //Toast.makeText(getApplicationContext(), Integer.toString(rc) , Toast.LENGTH_LONG).show();
             }
             @Override
@@ -93,7 +92,6 @@ public class ReadyActivity extends AppCompatActivity {
                     MainActivity.thisUser.setPoll(1);    //changes specific user status
                     database.child("poll").setValue(val);     // updates db
                     ready.setVisibility(View.INVISIBLE);
-                    startGame.setVisibility(View.VISIBLE);
                 }
 
             }//executes code on click
@@ -104,12 +102,17 @@ public class ReadyActivity extends AppCompatActivity {
             startGame.setVisibility(View.VISIBLE);
         }
 
+        if(lobbyPosition != 1)       //if the user is the VIP it will show the Start button
+        {
+            startGame.setVisibility(View.INVISIBLE);
+        }
+
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent toDiscussion = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
                 toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
-                toDiscussion.putExtra("playerCount", c);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                toDiscussion.putExtra("playerCount", count);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                 gameS.setValue(gameState);
                 startActivity(toDiscussion);//switches to the wait activity for the game
             }//executes code on click

@@ -56,7 +56,7 @@ public class DiscussionActivity extends AppCompatActivity {
                 if(readyPlayers == playerCount ){
                     Intent toVoting = new Intent(DiscussionActivity.this, VotingActivity.class);//creates the intent to switch to the wait activity
                     toVoting.putExtra("lobbyPosition", lobbyPosition);//stores the number of players and passes it to the next activity
-                    toVoting.putExtra("lobbyCount", readyPlayers);//stores the number of players and passes it to the next activity
+                    toVoting.putExtra("lobbyCount", playerCount);//stores the number of players and passes it to the next activity
                     startActivity(toVoting);//switches to the wait activity for the game
                 }
             }
