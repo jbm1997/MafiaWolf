@@ -58,6 +58,7 @@ public class DiscussionActivity extends AppCompatActivity {
                     Intent toVoting = new Intent(DiscussionActivity.this, VotingActivity.class);//creates the intent to switch to the wait activity
                     toVoting.putExtra("lobbyPosition", lobbyPosition);//stores the number of players and passes it to the next activity
                     toVoting.putExtra("lobbyCount", playerCount);//stores the number of players and passes it to the next activity
+                    gameState.setValue(2);
                     startActivity(toVoting);//switches to the wait activity for the game
                 }
             }
@@ -126,50 +127,51 @@ public class DiscussionActivity extends AppCompatActivity {
 //<================================================================================================================================================================================>
 
         //Used for setting Role icon in layout, based on assigned player role
-        if(roleNum == 0){
-            roleIcon.setImageResource(R.drawable.roleciv);
-            roleName.setText("Civilian");
+        switch(roleNum){
+            case 0:
+                roleIcon.setImageResource(R.drawable.roleciv);
+                roleName.setText("Civilian");
 
-            //Display brief Role info on image click
-            roleIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Vote on and Accuse Other Players", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-        else if(roleNum == 1){
-            roleIcon.setImageResource(R.drawable.rolewolf);
-            roleName.setText("Werewolf");
+                //Display brief Role info on image click
+                roleIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Vote on and Accuse Other Players", Toast.LENGTH_LONG).show();
+                    }
+                });
+                break;
+            case 1:
+                roleIcon.setImageResource(R.drawable.rolewolf);
+                roleName.setText("Werewolf");
 
-            roleIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Attack or Kill Players at Night", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-        else if(roleNum == 2){
-            roleIcon.setImageResource(R.drawable.rolecop);
-            roleName.setText("Sheriff");
+                roleIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Attack or Kill Players at Night", Toast.LENGTH_LONG).show();
+                    }
+                });
+                break;
+            case 2:
+                roleIcon.setImageResource(R.drawable.rolemed);
+                roleName.setText("Doctor");
 
-            roleIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Investigate Player Alignment", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-        else{
-            roleIcon.setImageResource(R.drawable.rolemed);
-            roleName.setText("Doctor");
+                roleIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Protect other Players from Wolf attacks", Toast.LENGTH_LONG).show();
+                    }
+                });
+                break;
+            case 3:
+                roleIcon.setImageResource(R.drawable.rolecop);
+                roleName.setText("Sheriff");
 
-            roleIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Protect other Players from Wolf attacks", Toast.LENGTH_LONG).show();
-                }
-            });
+                roleIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Investigate Player Alignment", Toast.LENGTH_LONG).show();
+                    }
+                });
         }
 
         // simply sends pass signal for the lobby client

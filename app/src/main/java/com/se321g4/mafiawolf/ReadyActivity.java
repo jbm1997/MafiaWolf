@@ -61,6 +61,8 @@ public class ReadyActivity extends AppCompatActivity {
                     toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                     toDiscussion.putExtra("playerCount", count);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                     gameS.setValue(gameState);
+                    MainActivity.thisUser.setPoll(0);
+                    database.child("poll").setValue(0);
                     startActivity(toDiscussion);//switches to the wait activity for the game
                 }
             }

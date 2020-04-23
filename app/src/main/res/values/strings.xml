@@ -9,4 +9,14 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="YAY">YAY</string>
+    <string name="NAY">NAY</string>
+    <string name="accused_player">Accused Player:</string>
+    <string name="name_here">Name Here</string>
+    <string name="third_player_name">Third Player Name</string>
+    <string name="second_player_name">Second Player Name</string>
+    <string name="first_player_name">First Player Name</string>
+    <string name="title_text">Who do you accuse?</string>
+    <string name="submit_button_text">Submit</string>
 </resources>

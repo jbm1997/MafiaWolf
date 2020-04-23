@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("/Players");//allows the app to access the FireBase database
     DatabaseReference playerCount = FirebaseDatabase.getInstance().getReference().child("/Count");//allows the app to access the FireBase database
-
+//possible idea, set all listeners in the main activity and then access the data from here? might help with the async nature of firebase
 
     private Button playGame;//Play Game button
     private ImageButton changePic;

@@ -15,7 +15,7 @@
         android:layout_marginTop="13dp"
         android:layout_marginEnd="160dp"
         android:layout_marginRight="160dp"
-        android:text="Player 3 Name"
+        android:text="@string/third_player_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player3Icon" />
@@ -27,7 +27,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
-        android:text="Player 2 Name"
+        android:text="@string/second_player_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player2Icon" />
 
@@ -86,7 +86,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginEnd="144dp"
         android:layout_marginRight="144dp"
-        android:text="Player 1 Name"
+        android:text="@string/first_player_name"
         app:layout_constraintEnd_toStartOf="@+id/player2name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player1Icon" />
@@ -94,20 +94,21 @@
     <TextView
         android:id="@+id/titleText"
         android:layout_width="289dp"
-        android:layout_height="47dp"
+        android:layout_height="0dp"
         android:layout_marginStart="67dp"
         android:layout_marginLeft="67dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="67dp"
         android:layout_marginRight="67dp"
         android:layout_marginBottom="50dp"
-        android:text="Who do you accuse?"
-        android:textSize="30sp"
+        android:text="@string/title_text"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/player1Icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/submitAccusation"
@@ -119,9 +120,10 @@
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
         android:layout_marginBottom="83dp"
-        android:text="Submit"
+        android:text="@string/submit_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player3name" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
