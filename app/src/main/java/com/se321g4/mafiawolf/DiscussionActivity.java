@@ -18,13 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class DiscussionActivity extends AppCompatActivity {
 
     private int lobbyPosition;
     private int readyPlayers;
-    private Button ReadyButton;//Ready button
+    private Button PassButton; // Button for pass time vote
     private ImageButton roleIcon;
     private TextView roleName;
     private int roleNum; //stores player role
@@ -43,11 +42,12 @@ public class DiscussionActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);//allows the app to access the FireBase database*/
         checkReady = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");
         gameState = FirebaseDatabase.getInstance().getReference().child("/GameState");
-        checkReady.setValue(0);
+        checkReady.setValue(0); //reset readyPlayers to zero (and never use it again)
+        MainActivity.thisUser.setPoll(0); //reset poll value to zero
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
-        ReadyButton = findViewById(R.id.ReadyButton);//initializes the Play Game button
+        PassButton = findViewById(R.id.PassButton);//initializes the Play Game button
         roleIcon = findViewById(R.id.imageView3);
         roleName = findViewById(R.id.RoleName);
 
@@ -67,7 +67,7 @@ public class DiscussionActivity extends AppCompatActivity {
             }
         });
 
-        checkReady.addValueEventListener(new ValueEventListener() {
+        /*checkReady.addValueEventListener(new ValueEventListener() { //old transition method, now unneeded
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 readyPlayers = dataSnapshot.getValue(Integer.class);
@@ -82,7 +82,7 @@ public class DiscussionActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-        });
+        });*/
 
 //<======THIS CODE IS RESPONSIBLE FOR RNG ROLE ASSIGNMENT, IT WORKS BUT WONT BE USED FOR DEMO PURPOSES, REMOVE COMMENT BEFORE SUBMISSION OF GITHUB LINK TO GTA=======>
 //        if(check == 0) { //add our role numbers to list
@@ -172,13 +172,14 @@ public class DiscussionActivity extends AppCompatActivity {
             });
         }
 
-        //sets player ReadyState to "Ready" on 'ReadyButton' click
-        ReadyButton.setOnClickListener(new View.OnClickListener() {
+        // simply sends pass signal for the lobby client
+        PassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.thisUser.setPoll(1); //User is Ready
-                Toast.makeText(getApplicationContext(),MainActivity.thisUser.getName()+" Is Ready!", Toast.LENGTH_SHORT).show();
-                checkReady.setValue(readyPlayers + 1);
+                MainActivity.thisUser.setPoll(1); // user chose to pass
+                PassButton.setActivated(false);
+                Toast.makeText(getApplicationContext(),"You ["+MainActivity.thisUser.getName()+"] chose to pass time.", Toast.LENGTH_SHORT).show();
+                //checkReady.setValue(readyPlayers + 1); // unneeded
             }
         });
     }

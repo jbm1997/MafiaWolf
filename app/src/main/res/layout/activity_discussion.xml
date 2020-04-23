@@ -55,11 +55,11 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/ReadyButton"
+        android:id="@+id/PassButton"
         android:layout_width="250dp"
         android:layout_height="76dp"
         android:layout_marginBottom="76dp"
-        android:text="Ready"
+        android:text="Pass Time"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
