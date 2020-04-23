@@ -30,9 +30,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private int playerCount;
     private ArrayList<Integer> Roles = new ArrayList<>(); //list of numbers representing roles
     private int check = 0; //used to ensure we initialize Roles list only once
-    private DatabaseReference database;
-    private DatabaseReference checkReady;
-    private DatabaseReference gameState;
+    private DatabaseReference database, poll, checkReady, gameState;
 
 
     @Override
@@ -43,7 +41,8 @@ public class DiscussionActivity extends AppCompatActivity {
         checkReady = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");
         gameState = FirebaseDatabase.getInstance().getReference().child("/GameState");
         checkReady.setValue(0); //reset readyPlayers to zero (and never use it again)
-        MainActivity.thisUser.setPoll(0); //reset poll value to zero
+        poll = database.child("poll");
+        poll.setValue(0); // reset poll value to zero (please do this for every activity)
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
@@ -176,9 +175,9 @@ public class DiscussionActivity extends AppCompatActivity {
         PassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.thisUser.setPoll(1); // user chose to pass
-                PassButton.setActivated(false);
-                Toast.makeText(getApplicationContext(),"You ["+MainActivity.thisUser.getName()+"] chose to pass time.", Toast.LENGTH_SHORT).show();
+                poll.setValue(1); // user chose to pass
+                PassButton.setVisibility(View.INVISIBLE); // remove the button once pressed
+                Toast.makeText(getApplicationContext(),"You have voted to pass time", Toast.LENGTH_SHORT).show();
                 //checkReady.setValue(readyPlayers + 1); // unneeded
             }
         });
