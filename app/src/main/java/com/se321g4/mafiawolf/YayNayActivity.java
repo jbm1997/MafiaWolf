@@ -12,6 +12,11 @@ public class YayNayActivity extends AppCompatActivity {
     private Button yayButton;
     private Button nayButton;
 
+    /*DESIGN: poll value starts at 0 (you dont have to set it). "Yea" changes it to 1. "Nay" changes it to 2.
+        Pressing either will disable (hide? idk how it works) both buttons.
+        This activity listens for gamestate to change to 4, upon which we enter night time voting.
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
