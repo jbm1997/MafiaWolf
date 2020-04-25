@@ -174,6 +174,7 @@ public class VotingActivity extends AppCompatActivity {
                                 toggleAllGUI(true);//turns on GUI
                                 voteRole();
                         }
+                        break;
                     case 3://civilians do nothing, all other roles have their unique voting abilities
                         switch(currentPlayerRole){//Roles: 0=civ not a case since they don't vote during the night; 1=wolf; 2=medic; 3=sheriff
                             case 1://Wolf - kills a player========================================================================================================
@@ -283,6 +284,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[0]);
+                submitButton.setEnabled(true);
             }
         });//updates current user poll value to the first player to indicate that is who they voted for
 
@@ -290,6 +292,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[1]);
+                submitButton.setEnabled(true);
             }
         });//updates current users poll value to the second player to indicate that is who they voted for
 
@@ -297,6 +300,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[2]);
+                submitButton.setEnabled(true);
             }
         });//updates current users poll value to the third player to indicate that is who they voted for
 
