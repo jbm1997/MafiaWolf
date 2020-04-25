@@ -3,6 +3,7 @@ package com.se321g4.mafiawolf;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.view.View;
@@ -196,6 +197,11 @@ public class VotingActivity extends AppCompatActivity {
                                 titleText.setText("Night falls... pray you survive");//all buttons / UI elements are disabled, civilians have to wait for daytime
                                 toggleAllGUI(false);//turns off GUI
                         }
+                        break;
+                    case 4://moves to yay nay activity
+                        Intent toYayNay = new Intent(VotingActivity.this, YayNayActivity.class);//creates the intent to switch to the wait activity
+                        toYayNay.putExtra("lobbyPosition", lobbyPosition);
+                        startActivity(toYayNay);//switches to the wait activity for the game
                 }
             }
 
