@@ -156,6 +156,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 gameState = dataSnapshot.getValue(Integer.class);
+                currentPlayer.child("poll").setValue(0);
 
                 int currentPlayerRole = MainActivity.thisUser.getRole();
 
@@ -171,24 +172,18 @@ public class VotingActivity extends AppCompatActivity {
                             default://re-enables the buttons / UI for those who haven't been slain
                                 titleText.setText("Who do you accuse?");
                                 toggleAllGUI(true);//turns on GUI
-
-                                submitButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        gameStateRef.setValue(3);
-                                    }
-                                });//updates current users poll value to the third player to indicate that is who they voted for
+                                voteRole();
                         }
                     case 3://civilians do nothing, all other roles have their unique voting abilities
                         switch(currentPlayerRole){//Roles: 0=civ not a case since they don't vote during the night; 1=wolf; 2=medic; 3=sheriff
                             case 1://Wolf - kills a player========================================================================================================
                                 titleText.setText("Pick your victim...");
-                                wolfRole();
+                                voteRole();
                                 break;
 
                             case 2://Medic - saves a player============================================================================================================
                                 titleText.setText("Save someone!");
-                                medicRole();
+                                voteRole();
                                 break;
 
                             case 3://Sheriff - Inspects a players role=====================================================================================================
@@ -251,39 +246,39 @@ public class VotingActivity extends AppCompatActivity {
     }
 
     //have the local users poll set to the person they choose, update the database when they hit submit at disable the buttons
-    private void medicRole(){//the way medic handles saving someone might change, could instead update a value on the saved player
-        firstPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.thisUser.setPoll(playerRealPositions[0]);
-            }
-        });//updates current user poll value to the first player to indicate that is who they voted for
+//    private void medicRole(){//the way medic handles saving someone might change, could instead update a value on the saved player
+//        firstPlayer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.thisUser.setPoll(playerRealPositions[0]);
+//            }
+//        });//updates current user poll value to the first player to indicate that is who they voted for
+//
+//        secondPlayer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.thisUser.setPoll(playerRealPositions[1]);
+//            }
+//        });//updates current users poll value to the second player to indicate that is who they voted for
+//
+//        thirdPlayer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.thisUser.setPoll(playerRealPositions[2]);
+//            }
+//        });//updates current users poll value to the third player to indicate that is who they voted for
+//
+//        submitButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
+//                submitButton.setEnabled(false);
+//                submitButton.setVisibility(View.INVISIBLE);
+//            }
+//        });
+//    }
 
-        secondPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.thisUser.setPoll(playerRealPositions[1]);
-            }
-        });//updates current users poll value to the second player to indicate that is who they voted for
-
-        thirdPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.thisUser.setPoll(playerRealPositions[2]);
-            }
-        });//updates current users poll value to the third player to indicate that is who they voted for
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
-                submitButton.setEnabled(false);
-                submitButton.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
-
-    private void wolfRole(){
+    private void voteRole(){
         firstPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
