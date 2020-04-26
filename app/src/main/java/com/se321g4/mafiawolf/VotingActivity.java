@@ -99,7 +99,7 @@ public class VotingActivity extends AppCompatActivity {
         playersRef();
         gameStateRef();
 
-    }
+    }//onCreate
 
     private void assignIconsNames() {
         final int[] images = new int[7];//stores all references to the player icons in an array so that they can be accessed contextually
@@ -121,8 +121,8 @@ public class VotingActivity extends AppCompatActivity {
                 i++;
             }
             
-            if (helper > 0) {//triggers helpers to maintain proper array iteration when the code reaches the position of the current player.
-                if(helper != lobbyCount){
+            if (helper > 0) {//triggers helper to maintain proper array iteration when the code reaches the position of the current player.
+                if(helper != 4){
                     targetPlayer = playerIconButton[helper-1];
                     targetPlayer.setImageResource(images[playerIcons[helper-1]]);
                     targetPlayerName = playerNamesFields[helper-1];
@@ -143,10 +143,13 @@ public class VotingActivity extends AppCompatActivity {
         switch(playerRole){//fills the playerRoles array with the appropriate roles transcribed to strings instead of 0-3
             case 1:
                 playerRoles[index] = "Werewolf";
+                break;
             case 2:
                 playerRoles[index] = "Doctor";
+                break;
             case 3:
                 playerRoles[index] = "Sheriff";
+                break;
             default:
                 playerRoles[index] = "Civilian";
         }
@@ -193,6 +196,12 @@ public class VotingActivity extends AppCompatActivity {
                                 submitButton.setEnabled(false);
                                 sheriffRole();
                                 break;
+                            case 4:
+                                titleText.setText("You have been slain...");
+                                break;
+                            case 5:
+                                titleText.setText("You have been slain by the Werewolves...");
+                                break;
                             default:
                                 titleText.setText("Night falls... pray you survive");//all buttons / UI elements are disabled, civilians have to wait for daytime
                                 toggleAllGUI(false);//turns off GUI
@@ -209,40 +218,39 @@ public class VotingActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });//listener checks for the value of the gameState
-    }
+    }//gameStateRef
 
     private void playersRef(){
         players.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (int i = 0; i <= lobbyCount; i++) {
-                    if (i + 1 == lobbyPosition && lobbyPosition == 1) {//this prevents a NullPointerException from occurring
-                        continue;
-                    }
+                for (int i = 1; i <= lobbyCount; i++) {
+                    retrieveIconNames(dataSnapshot, i);
 
-                    if (i + 1 == lobbyPosition || i == 0 || i == lobbyPosition) {
+                    //sets helper to i when it detects that the next Player in the loop is the current player, or when i is the current player (player 1), and increases i to maintain array iteration. This prevents something like current player creating a null pointer exception
+                    if (i + 1 == lobbyPosition || i == lobbyPosition) {
                         helper = i;
                         i++;
-                    }
 
-                    iconValue = dataSnapshot.child("Player" + i).child("icon").getValue(Integer.class);
-                    playerName = dataSnapshot.child("Player" + i).child("name").getValue().toString();
-                    playerRole = dataSnapshot.child("Player" + i).child("role").getValue(Integer.class);
+                        if(lobbyPosition == 1){
+                            retrieveIconNames(dataSnapshot, i);
+                        }
+                    }
 
                     if (helper > 0) {
                         playerIcons[helper - 1] = iconValue;
                         playerNames[helper - 1] = playerName;
-                        playerRealPositions[helper - 1] = i;
+
                         fillPlayerRolesArray(playerRole, helper-1);
                         helper++;
                     } else {
                         playerIcons[i - 1] = iconValue;
                         playerNames[i - 1] = playerName;
-                        playerRealPositions[i - 1] = i;
                         fillPlayerRolesArray(playerRole, i-1);
                     }
                 }
                 helper = 0;
+                properPlayerPositions();
                 assignIconsNames();//method assigns icons and names contextually for players on the voting screen
             }
 
@@ -250,46 +258,32 @@ public class VotingActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });//this listener pulls all the player icons and names from the database, except for the current player
-    }
+    }//playersRef
 
-    //have the local users poll set to the person they choose, update the database when they hit submit at disable the buttons
-//    private void medicRole(){//the way medic handles saving someone might change, could instead update a value on the saved player
-//        firstPlayer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.thisUser.setPoll(playerRealPositions[0]);
-//            }
-//        });//updates current user poll value to the first player to indicate that is who they voted for
-//
-//        secondPlayer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.thisUser.setPoll(playerRealPositions[1]);
-//            }
-//        });//updates current users poll value to the second player to indicate that is who they voted for
-//
-//        thirdPlayer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.thisUser.setPoll(playerRealPositions[2]);
-//            }
-//        });//updates current users poll value to the third player to indicate that is who they voted for
-//
-//        submitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
-//                submitButton.setEnabled(false);
-//                submitButton.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//    }
+    private void retrieveIconNames(DataSnapshot dataSnapshot, int index){
+        iconValue = dataSnapshot.child("Player" + index).child("icon").getValue(Integer.class);
+        playerName = dataSnapshot.child("Player" + index).child("name").getValue().toString();
+        playerRole = dataSnapshot.child("Player" + index).child("role").getValue(Integer.class);
+    }//retrieveIconNames
 
-    private void voteRole(){
+    public void properPlayerPositions(){//generates the player positions array
+        int position = 1;
+
+        for(int i = 0; i < 3; i++){
+            if(position == lobbyPosition){
+                position++;
+            }
+            playerRealPositions[i] = position;
+            position++;
+        }
+    }//properPlayerPositions
+
+    private void voteRole(){//can be used for wolf, medic, and civilian as they all have the same functions on the mobile client side (retrieving and updating user poll values on Firebase)
         firstPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[0]);
+                Toast.makeText(getApplicationContext(),"Poll: " + playerRealPositions[0] , Toast.LENGTH_LONG).show();
                 submitButton.setEnabled(true);
             }
         });//updates current user poll value to the first player to indicate that is who they voted for
@@ -298,6 +292,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[1]);
+                Toast.makeText(getApplicationContext(),"Poll: " + playerRealPositions[1] , Toast.LENGTH_LONG).show();
                 submitButton.setEnabled(true);
             }
         });//updates current users poll value to the second player to indicate that is who they voted for
@@ -306,6 +301,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.thisUser.setPoll(playerRealPositions[2]);
+                Toast.makeText(getApplicationContext(),"Poll: " + playerRealPositions[2] , Toast.LENGTH_LONG).show();
                 submitButton.setEnabled(true);
             }
         });//updates current users poll value to the third player to indicate that is who they voted for
@@ -318,9 +314,9 @@ public class VotingActivity extends AppCompatActivity {
                 submitButton.setVisibility(View.INVISIBLE);
             }
         });
-    }
+    }//voteRole
 
-    private void sheriffRole(){
+    private void sheriffRole(){//sheriff doesn't update any poll values, only checks for role
         submitButton.setVisibility(View.INVISIBLE);
 
         firstPlayer.setOnClickListener(new View.OnClickListener() {
@@ -346,7 +342,7 @@ public class VotingActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), playerNames[2] + " is a " + playerRoles[2], Toast.LENGTH_LONG).show();
             }
         });//updates current users poll value to the third player to indicate that is who they voted for
-    }
+    }//sheriffRole
     
     private void toggleAllGUI(boolean trigger){
         if(trigger){//turns on the GUI
@@ -360,7 +356,7 @@ public class VotingActivity extends AppCompatActivity {
 
             thirdPlayer.setVisibility(View.VISIBLE);
             thirdPlayer.setEnabled(true);
-            thirdPlayerName.setVisibility(View.INVISIBLE);
+            thirdPlayerName.setVisibility(View.VISIBLE);
 
             submitButton.setVisibility(View.VISIBLE);
             submitButton.setEnabled(true);

@@ -26,6 +26,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private Button PassButton; // Button for pass time vote
     private ImageButton roleIcon;
     private TextView roleName;
+    private TextView rolePrompt;
     private int roleNum; //stores player role
     private int playerCount;
     private ArrayList<Integer> Roles = new ArrayList<>(); //list of numbers representing roles
@@ -171,6 +172,20 @@ public class DiscussionActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Investigate Player Alignment", Toast.LENGTH_LONG).show();
                     }
                 });
+            case 4:
+                roleName.setText("You have been slain...");
+                roleIcon.setVisibility(View.INVISIBLE);
+                rolePrompt.setVisibility(View.INVISIBLE);
+                PassButton.setEnabled(false);
+                PassButton.setVisibility(View.INVISIBLE);
+                break;
+            case 5:
+                roleName.setText("You have been slain by the Werewolves...");
+                roleIcon.setVisibility(View.INVISIBLE);
+                rolePrompt.setVisibility(View.INVISIBLE);
+                PassButton.setEnabled(false);
+                PassButton.setVisibility(View.INVISIBLE);
+                break;
         }
 
         // simply sends pass signal for the lobby client
