@@ -174,14 +174,14 @@ public class DiscussionActivity extends AppCompatActivity {
                 });
             case 4:
                 roleName.setText("You have been slain...");
-                roleIcon.setVisibility(View.INVISIBLE);
+                roleIcon.setImageResource(R.drawable.crossbones);
                 rolePrompt.setVisibility(View.INVISIBLE);
                 PassButton.setEnabled(false);
                 PassButton.setVisibility(View.INVISIBLE);
                 break;
             case 5:
                 roleName.setText("You have been slain by the Werewolves...");
-                roleIcon.setVisibility(View.INVISIBLE);
+                roleIcon.setImageResource(R.drawable.crossbones);
                 rolePrompt.setVisibility(View.INVISIBLE);
                 PassButton.setEnabled(false);
                 PassButton.setVisibility(View.INVISIBLE);
