@@ -172,6 +172,7 @@ public class DiscussionActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Investigate Player Alignment", Toast.LENGTH_LONG).show();
                     }
                 });
+                break;
             case 4:
                 roleName.setText("You have been slain...");
                 roleIcon.setImageResource(R.drawable.crossbones);
