@@ -66,7 +66,7 @@ public class YayNayActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.thisUser.setPoll(0);
+                MainActivity.thisUser.setPoll(2);
                 currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
                 yayButton.setEnabled(false);
                 nayButton.setEnabled(false);
