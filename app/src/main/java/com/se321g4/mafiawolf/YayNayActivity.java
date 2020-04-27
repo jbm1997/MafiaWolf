@@ -53,25 +53,31 @@ public class YayNayActivity extends AppCompatActivity {
 //            }
 //        });
 
-        yayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.thisUser.setPoll(1);
-                currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
-                yayButton.setEnabled(false);
-                nayButton.setEnabled(false);
-                YayNayActivity.super.onBackPressed();
-            }
-        });//updates current user poll value to the first player to indicate that is who they voted for
-        nayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.thisUser.setPoll(2);
-                currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
-                yayButton.setEnabled(false);
-                nayButton.setEnabled(false);
-                YayNayActivity.super.onBackPressed();
-            }
-        });//updates current user poll value to the first player to indicate that is who they voted for
+        if(lobbyPosition != 1){
+            yayButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.thisUser.setPoll(1);
+                    currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
+                    yayButton.setEnabled(false);
+                    nayButton.setEnabled(false);
+                    YayNayActivity.super.onBackPressed();
+                }
+            });//updates current user poll value to the first player to indicate that is who they voted for
+            nayButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.thisUser.setPoll(2);
+                    currentPlayer.child("poll").setValue(MainActivity.thisUser.getPoll());
+                    yayButton.setEnabled(false);
+                    nayButton.setEnabled(false);
+                    YayNayActivity.super.onBackPressed();
+                }
+            });//updates current user poll value to the first player to indicate that is who they voted for
+        }
+        else{
+            yayButton.setEnabled(false);
+            nayButton.setEnabled(false);
+        }
     }
 }

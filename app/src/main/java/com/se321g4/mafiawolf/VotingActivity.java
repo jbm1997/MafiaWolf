@@ -160,7 +160,7 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 gameState = dataSnapshot.getValue(Integer.class);
-                currentPlayer.child("poll").setValue(0);
+                //currentPlayer.child("poll").setValue(0);
 
                 int currentPlayerRole = MainActivity.thisUser.getRole();
 
