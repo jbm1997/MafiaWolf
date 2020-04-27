@@ -2749,9 +2749,9 @@ MonoBehaviour:
   mainPanel: {fileID: 2111779057}
   timerPanel: {fileID: 1987785331}
   timeLimit_Discussion: 20.9
-  timeLimit_Convict: 20.9
+  timeLimit_Convict: 15.9
   timeLimit_Defend: 10.9
-  timeLimit_Night: 10.9
+  timeLimit_Night: 15.9
   countText:
   - {fileID: 1927311658}
   readyText:

@@ -112,7 +112,7 @@ public class DBStartup : MonoBehaviour
                 yield return new WaitWhile(() => phaseSyncValue == 2);
                 StartCoroutine(NightPhase()); //phase 4
                 yield return new WaitWhile(() => phaseSyncValue == 3);
-                phaseSyncValue = 0;
+                phaseSyncValue = 1;
             }
         }
         
@@ -128,8 +128,7 @@ public class DBStartup : MonoBehaviour
            "<align=\"left\">" +
            "In this phase night time activities take place. Mafias choose who to kill, Medics choose who to save, and Sherifs choose who to check.\n" +
            "Not much actually goes on on the lobby screen. Mobile clients will handle sheriff locally." +
-           " Mafia and medics will simply pass poll value of player ID chosen. Currently assumes only one of each role." +
-           "<color=#FF6060FF>Game loop is currently STUBBED-OFF at this point</color>."
+           " Mafia and medics will simply pass poll value of player ID chosen. Currently assumes only one of each role."
            );
         // switch to night background
         gameObject.GetComponent<BGHandler>().SwitchToBG(3);
@@ -152,13 +151,20 @@ public class DBStartup : MonoBehaviour
         }
         root.Child("GameState").SetValueAsync(3);
         yield return new WaitUntil(() => timerPanel.GetComponent<TimerController>().getIsDone());
+        timerPanel.GetComponent<PopupAnimate>().AnimClose();
         int killChoice = 0, saveChoice = 0;
         foreach (PlayerInstance player in players)
         { // check all the wolves and medics for selected players
-            if (player.role != Role.medic || player.role != Role.wolf) continue;
-            if (player.poll == 0) continue;
-            if (player.role == Role.wolf) killChoice = player.poll;
-            if (player.role == Role.medic) saveChoice = player.poll;
+            if (player.role == Role.wolf)
+            {
+                killChoice = player.poll;
+                player.statusText.SetNewText("Kill(" + killChoice + ")");
+            }
+            else if (player.role == Role.medic)
+            {
+                saveChoice = player.poll;
+                player.statusText.SetNewText("Save(" + saveChoice + ")");
+            }
         }
         if (killChoice == saveChoice) killChoice = 0; // medic saved
         if (killChoice == 0) // nobody was killed
@@ -172,7 +178,7 @@ public class DBStartup : MonoBehaviour
             toBeKilled.updatePoll = false;
             toBeKilled.SetRole(Role.killed);
             toBeKilled.subText.SetNewText("<color=#FFA070FF>Killed</color>");
-            toBeKilled.statusText.SetNewText("");
+            toBeKilled.statusText.SetNewText(" ");
             toBeKilled.playerCard.GetComponent<PopupAnimate>().AnimLowfocus();
             mainPanelText.GetComponent<PanelTextControl>().SetNewText("<color=#FFA070FF>Day " + turnNum + "</color>" +
            "\nDawn approaches.\n" +
@@ -180,6 +186,7 @@ public class DBStartup : MonoBehaviour
            "The wolves struck, and no one could save them...");
         }
         yield return new WaitForSeconds(2f);
+        
         phaseSyncValue++;
     }
     /*=============================================================================================
@@ -213,7 +220,7 @@ public class DBStartup : MonoBehaviour
             if (player.role < Role.exiled)
             {
                 player.playerCard.GetComponent<PopupAnimate>().AnimBump();
-                player.statusText.SetNewText("<color=#FFA070FF>None</color>");
+                player.statusText.SetNewText(" ");
                 player.updateRoutine = StartCoroutine(UpdatePlayer(player));
                 inPlay++;
             }
@@ -266,7 +273,7 @@ public class DBStartup : MonoBehaviour
         {
             mainPanelText.GetComponent<PanelTextControl>().SetNewText("<color=#FFA070FF>Day " + turnNum + "</color>" +
             "\nNo majority was found.\nThere will be no one <color=#FFA070FF>exiled</color> today.");
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
             // move to night phase (gamestate 3)
         }
         else // there was a majority chosen player to convict
@@ -288,10 +295,12 @@ public class DBStartup : MonoBehaviour
             onTrial.subText.SetNewText("Defending");
             onTrial.updatePoll = true;
             onTrial.playerRoot.Child("poll").SetValueAsync(-1);
+            yield return new WaitUntil(() => onTrial.poll == -1);
+            onTrial.updatePoll = false;
             foreach (PlayerInstance juryMember in players)
             { // for all members of the jury
                 if (juryMember.role >= Role.exiled || juryMember.poll==-1) continue;
-                onTrial.updatePoll = true;
+                juryMember.updatePoll = true;
                 juryMember.playerRoot.Child("poll").SetValueAsync(0);
                 juryMember.playerCard.GetComponent<PopupAnimate>().AnimLowfocus();
                 juryMember.subText.SetNewText("On Jury");
@@ -329,12 +338,13 @@ public class DBStartup : MonoBehaviour
                     default: newStatus = "Error("+juryMember.poll+")"; break; // wut how
                 }
                 juryMember.poll = 0;
+                voted++;
                 juryMember.statusText.SetNewText(newStatus);
                 yield return new WaitUntil(() => voted >= jurySize);
                 juryMember.updatePoll = true;
                 onTrial.playerRoot.Child("poll").SetValueAsync(0);
                 onTrial.playerCard.GetComponent<PopupAnimate>().AnimUnFocus();
-                juryMember.statusText.SetNewText(". . .");
+                juryMember.statusText.SetNewText(" ");
                 juryMember.subText.SetNewText("- - -");
 
             }
@@ -348,7 +358,7 @@ public class DBStartup : MonoBehaviour
                 onTrial.updatePoll = false;
                 onTrial.SetRole(Role.exiled);
                 onTrial.subText.SetNewText("<color=#FFA070FF>Exiled</color>");
-                onTrial.statusText.SetNewText("");
+                onTrial.statusText.SetNewText(" ");
                 onTrial.playerCard.GetComponent<PopupAnimate>().AnimLowfocus();
             }
             else
@@ -356,7 +366,7 @@ public class DBStartup : MonoBehaviour
                 onTrial.updatePoll = true;
                 onTrial.playerRoot.Child("poll").SetValueAsync(0);
                 onTrial.subText.SetNewText("- - -");
-                onTrial.statusText.SetNewText(". . .");
+                onTrial.statusText.SetNewText(" ");
                 onTrial.playerCard.GetComponent<PopupAnimate>().AnimUnFocus();
             }
             yield return new WaitForSeconds(1.5f);
@@ -380,6 +390,7 @@ public class DBStartup : MonoBehaviour
         mainPanelText.GetComponent<PanelTextControl>().SetNewText("<color=#FFA070FF>Day " + turnNum + "</color>" +
             "\nThe town hall convenes at dawn.\n<color=#FFA070FF>Discussion</color> ensues...");
         yield return new WaitForSeconds(2f);
+        root.Child("GameState").SetValueAsync(1);
         timerPanel.GetComponent<PopupAnimate>().AnimOpen();
         yield return new WaitForSeconds(1f);
         timerPanel.GetComponent<TimerController>().SetTimer(timeLimit_Discussion);
@@ -393,6 +404,7 @@ public class DBStartup : MonoBehaviour
             if (player.role < Role.exiled)
             {
                 player.updatePoll = true;
+                player.statusText.SetNewText(" ");
                 player.updateRoutine = StartCoroutine(UpdatePlayer(player));
                 inPlay++;
                 if (player.role == Role.wolf) numWolves++;
@@ -443,6 +455,7 @@ public class DBStartup : MonoBehaviour
         foreach (PlayerInstance player in players)
         {
             player.playerCard.GetComponent<PopupAnimate>().AnimUnFocus();
+            player.statusText.SetNewText(" ");
             player.statusImg.SwitchToImg((int)player.originalRole + 7);
         }
     }
@@ -530,7 +543,8 @@ public class DBStartup : MonoBehaviour
             }
             player.playerRoot.Child("poll").SetValueAsync(0);
             // wait until VIP hits start to reset text before handing player off to next phase
-            yield return new WaitUntil(() => gameState == 1);           
+            yield return new WaitUntil(() => gameState == 1);
+            player.FetchRole();
             player.statusText.SetNewText(". . .");
         }
     }
@@ -570,18 +584,17 @@ public class DBStartup : MonoBehaviour
             nameText = playerCard.transform.GetChild(0).GetComponent<PanelTextControl>();
             subText = playerCard.transform.GetChild(1).GetComponent<PanelTextControl>();
             statusText = playerCard.transform.GetChild(2).GetChild(0).GetComponent<PanelTextControl>();
-            statusImg = playerCard.transform.GetChild(2).GetChild(0).GetComponent<StatusImageController>();
+            statusImg = playerCard.transform.GetChild(2).GetChild(1).GetComponent<StatusImageController>();
             iconImage = playerCard.transform.GetChild(3).gameObject;
 
             this.playerRoot = playerRoot;
             this.playerCard = playerCard;
 
             InitializeNameAndIcon();
-            FetchRole();
             this.playerRoot.Child("poll").ValueChanged += PollUpdateListener;            
         }
 
-        private void FetchRole()
+        public void FetchRole() //only needed since mobile client sets role atm
         {
             playerRoot.Child("role").GetValueAsync().ContinueWith(task =>
             {

@@ -23,7 +23,7 @@ public class StatusImageController : MonoBehaviour
 
     public void SwitchToImg(int i) 
     {
-        if (i < statusImgObj.Length)
+        if (i < statusImgObj.Length && i!=curImg)
         {
             statusImgObj[curImg].GetComponent<Animator>().Play("BumpFadeOut");
             curImg = i;
