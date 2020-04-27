@@ -68,7 +68,7 @@ public class DiscussionActivity extends AppCompatActivity {
             }
         });
 
-        /*checkReady.addValueEventListener(new ValueEventListener() { //old transition method, now unneeded
+        checkReady.addValueEventListener(new ValueEventListener() { //old transition method, now unneeded
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 readyPlayers = dataSnapshot.getValue(Integer.class);
@@ -83,7 +83,7 @@ public class DiscussionActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-        });*/
+        });
 
 //<======THIS CODE IS RESPONSIBLE FOR RNG ROLE ASSIGNMENT, IT WORKS BUT WONT BE USED FOR DEMO PURPOSES, REMOVE COMMENT BEFORE SUBMISSION OF GITHUB LINK TO GTA=======>
 //        if(check == 0) { //add our role numbers to list
@@ -123,6 +123,7 @@ public class DiscussionActivity extends AppCompatActivity {
                 roleNum = 2;
                 database.child("role").setValue(roleNum);//updates player role in database
             }
+            checkReady.setValue(1);
         }
 //<================================================================================================================================================================================>
 
