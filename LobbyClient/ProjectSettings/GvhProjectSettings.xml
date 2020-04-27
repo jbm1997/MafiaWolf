@@ -1,0 +1,15 @@
+<projectSettings>
+  <projectSetting name="com.google.external-dependency-managerAnalyticsEnabled" value="False" />
+  <projectSetting name="com.google.firebaseAnalyticsCookie" value="7c86f581714644c6bc388f5ec7fe8bb7" />
+  <projectSetting name="com.google.firebaseAnalyticsEnabled" value="True" />
+  <projectSetting name="Google.IOSResolver.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="Google.UnityPackageManagerResolver.Enable" value="True" />
+  <projectSetting name="Google.UnityPackageManagerResolver.PromptToAddRegistries" value="True" />
+  <projectSetting name="Google.UnityPackageManagerResolver.PromptToMigratePackages" value="True" />
+  <projectSetting name="Google.UnityPackageManagerResolver.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="Google.VersionHandler.CleanUpPromptEnabled" value="True" />
+  <projectSetting name="Google.VersionHandler.RenameToCanonicalFilenames" value="False" />
+  <projectSetting name="Google.VersionHandler.RenameToDisableFilesEnabled" value="True" />
+  <projectSetting name="Google.VersionHandler.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="Google.VersionHandler.VersionHandlingEnabled" value="True" />
+</projectSettings>

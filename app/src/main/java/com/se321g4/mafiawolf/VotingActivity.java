@@ -168,7 +168,7 @@ public class VotingActivity extends AppCompatActivity {
                     case 2://everyone has the same voting powers
                         switch(currentPlayerRole) {
                             case 4:
-                                titleText.setText("You have been slain...");
+                                titleText.setText("You have been exiled...");
                                 break;
                             case 5:
                                 titleText.setText("You have been slain by the Werewolves...");
@@ -197,7 +197,7 @@ public class VotingActivity extends AppCompatActivity {
                                 sheriffRole();
                                 break;
                             case 4:
-                                titleText.setText("You have been slain...");
+                                titleText.setText("You have been exiled...");
                                 break;
                             case 5:
                                 titleText.setText("You have been slain by the Werewolves...");
