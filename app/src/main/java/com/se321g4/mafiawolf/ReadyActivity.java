@@ -25,6 +25,7 @@ public class ReadyActivity extends AppCompatActivity {
     private int count;                 // provides count of players from db
     private  int gameState =1;
     private int readyAmount = 0;   //provide how many players are ready in the DB
+    private int roleNum = 0;
     DatabaseReference database;
     DatabaseReference databaseCount;
     DatabaseReference readyC;
@@ -50,6 +51,25 @@ public class ReadyActivity extends AppCompatActivity {
 
         if(lobbyPosition == 1){
             ready.setVisibility(View.INVISIBLE);
+        }
+
+        // setting roles for 4 players for demo purposes
+        if (lobbyPosition == 1) {
+            MainActivity.thisUser.setRole(0);
+            roleNum = 0; //civ
+            database.child("role").setValue(roleNum);//updates player role in database
+        } else if (lobbyPosition == 2) {
+            MainActivity.thisUser.setRole(1);
+            roleNum = 1; //wolf
+            database.child("role").setValue(roleNum);//updates player role in database
+        } else if (lobbyPosition == 3) {
+            MainActivity.thisUser.setRole(3);
+            roleNum = 3; //sheriff
+            database.child("role").setValue(roleNum);//updates player role in database
+        } else {
+            MainActivity.thisUser.setRole(2);
+            roleNum = 2; // medic
+            database.child("role").setValue(roleNum);//updates player role in database
         }
 
 
@@ -131,6 +151,7 @@ public class ReadyActivity extends AppCompatActivity {
                 Intent toDiscussion = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
                 toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                 toDiscussion.putExtra("playerCount", count);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
+                toDiscussion.putExtra("role", roleNum);
                 gameS.setValue(gameState);
                 startActivity(toDiscussion);//switches to the wait activity for the game
             }//executes code on click
