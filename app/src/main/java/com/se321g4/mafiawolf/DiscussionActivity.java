@@ -174,7 +174,7 @@ public class DiscussionActivity extends AppCompatActivity {
                 });
                 break;
             case 4:
-                roleName.setText("You have been slain...");
+                roleName.setText("You have been exiled...");
                 roleIcon.setImageResource(R.drawable.crossbones);
                 rolePrompt.setVisibility(View.INVISIBLE);
                 PassButton.setEnabled(false);
