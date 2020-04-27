@@ -38,6 +38,7 @@ public class DiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         lobbyPosition = getIntent().getIntExtra("lobbyPosition", 0);
         playerCount  = getIntent().getIntExtra("playerCount", 0);
+        roleNum = getIntent().getIntExtra("role", 0);
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);//allows the app to access the FireBase database*/
         checkReady = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");
         gameState = FirebaseDatabase.getInstance().getReference().child("/GameState");
@@ -104,27 +105,6 @@ public class DiscussionActivity extends AppCompatActivity {
 //        Roles.remove(roleNum); //remove role from list, cannot be assigned to another player
 //<=====================================================================================================================================================================>
 
-//<===============================THIS CODE IS RESPONSIBLE FOR FORCE ASSIGNING A ROLE TO PLAYERS 1-4 FOR DEMO PURPOSES. REMOVE BEFORE SUBMISSION OF GITHUB LINK TO GTA============>
-        if(readyPlayers == 0) {
-            if (lobbyPosition == 1) {
-                MainActivity.thisUser.setRole(0);
-                roleNum = 0;
-                database.child("role").setValue(roleNum);//updates player role in database
-            } else if (lobbyPosition == 2) {
-                MainActivity.thisUser.setRole(1);
-                roleNum = 1;
-                database.child("role").setValue(roleNum);//updates player role in database
-            } else if (lobbyPosition == 3) {
-                MainActivity.thisUser.setRole(3);
-                roleNum = 3;
-                database.child("role").setValue(roleNum);//updates player role in database
-            } else {
-                MainActivity.thisUser.setRole(2);
-                roleNum = 2;
-                database.child("role").setValue(roleNum);//updates player role in database
-            }
-        }
-//<================================================================================================================================================================================>
 
         //Used for setting Role icon in layout, based on assigned player role
         switch(roleNum){
