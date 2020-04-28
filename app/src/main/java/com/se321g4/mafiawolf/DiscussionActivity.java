@@ -38,7 +38,7 @@ public class DiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         lobbyPosition = getIntent().getIntExtra("lobbyPosition", 0);
         playerCount  = getIntent().getIntExtra("playerCount", 0);
-        roleNum = getIntent().getIntExtra("role", 0);
+        roleNum = MainActivity.thisUser.getRole();
         database = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);//allows the app to access the FireBase database*/
         checkReady = FirebaseDatabase.getInstance().getReference().child("/ReadyPlayers");
         gameState = FirebaseDatabase.getInstance().getReference().child("/GameState");
