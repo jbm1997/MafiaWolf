@@ -151,7 +151,6 @@ public class ReadyActivity extends AppCompatActivity {
                 Intent toDiscussion = new Intent(ReadyActivity.this, DiscussionActivity.class);//creates the intent to switch to the wait activity
                 toDiscussion.putExtra("lobbyPosition", lobbyPosition);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
                 toDiscussion.putExtra("playerCount", count);//stores the lobby position for the local instance of the mobile app and passes it to the next activity
-                toDiscussion.putExtra("role", roleNum);
                 gameS.setValue(gameState);
                 startActivity(toDiscussion);//switches to the wait activity for the game
             }//executes code on click

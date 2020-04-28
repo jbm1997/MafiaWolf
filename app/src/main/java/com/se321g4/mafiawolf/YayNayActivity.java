@@ -39,20 +39,6 @@ public class YayNayActivity extends AppCompatActivity {
         lobbyPosition = getIntent().getIntExtra("lobbyPosition", 0);
         currentPlayer = FirebaseDatabase.getInstance().getReference().child("/Players").child("Player" + lobbyPosition);//allows the app to access the FireBase database*/
 
-//        gameStateRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                gameState = dataSnapshot.getValue(Integer.class);
-//                if(gameState == 3){
-//                    this.finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
-
         if(lobbyPosition != 1){
             yayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
