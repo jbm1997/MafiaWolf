@@ -143,8 +143,10 @@ public class DBStartup : MonoBehaviour
         timerPanel.GetComponent<TimerController>().StartTimer();
         foreach (PlayerInstance player in players)
         {
+            
             if (player.role < Role.exiled)
             {
+                player.playerCard.GetComponent<PopupAnimate>().AnimUnFocus();
                 player.updatePoll = true;
                 player.playerRoot.Child("poll").SetValueAsync(0);
             }
@@ -158,12 +160,12 @@ public class DBStartup : MonoBehaviour
             if (player.role == Role.wolf)
             {
                 killChoice = player.poll;
-                player.statusText.SetNewText("Kill(" + killChoice + ")");
+                //player.statusText.SetNewText("Kill(" + killChoice + ")");
             }
             else if (player.role == Role.medic)
             {
                 saveChoice = player.poll;
-                player.statusText.SetNewText("Save(" + saveChoice + ")");
+                //player.statusText.SetNewText("Save(" + saveChoice + ")");
             }
         }
         if (killChoice == saveChoice) killChoice = 0; // medic saved
@@ -219,7 +221,7 @@ public class DBStartup : MonoBehaviour
             // Only counts players still in play
             if (player.role < Role.exiled)
             {
-                player.playerCard.GetComponent<PopupAnimate>().AnimBump();
+                //player.playerCard.GetComponent<PopupAnimate>().AnimBump();
                 player.statusText.SetNewText(" ");
                 player.updateRoutine = StartCoroutine(UpdatePlayer(player));
                 inPlay++;
@@ -239,12 +241,9 @@ public class DBStartup : MonoBehaviour
             }
             // wait while timer is running and then clean up the listener and reset some stuff
             yield return new WaitUntil(() => (timerPanel.GetComponent<TimerController>().getIsDone() || numVoted >= inPlay));
-            if (player.poll!=0)
-            {
-                player.statusImg.SwitchToImg(0); // Set status image to transparent
-                player.subText.SetNewText("- - -"); // reset some gui text
-                player.statusText.SetNewText(". . .");
-            }
+            player.statusImg.SwitchToImg(0); // Set status image to transparent
+            player.subText.SetNewText("- - -"); // reset some gui text
+            player.statusText.SetNewText(" ");
             player.playerRoot.Child("poll").SetValueAsync(0);   
         }
     
@@ -278,6 +277,7 @@ public class DBStartup : MonoBehaviour
         }
         else // there was a majority chosen player to convict
         { //defense subphase
+            foreach (PlayerInstance player in players) player.statusImg.SwitchToImg(0);
             debugTextObj.GetComponent<PanelTextControl>().SetNewText(
            "[Defense SubPhase]\n" +
            "<align=\"left\">" +
