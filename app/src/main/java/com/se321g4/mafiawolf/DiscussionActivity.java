@@ -69,24 +69,7 @@ public class DiscussionActivity extends AppCompatActivity {
             }
         });
 
-        /*checkReady.addValueEventListener(new ValueEventListener() { //old transition method, now unneeded
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                readyPlayers = dataSnapshot.getValue(Integer.class);
-                if(readyPlayers == playerCount ){
-                    Intent toVoting = new Intent(DiscussionActivity.this, VotingActivity.class);//creates the intent to switch to the wait activity
-                    toVoting.putExtra("lobbyPosition", lobbyPosition);//stores the number of players and passes it to the next activity
-                    toVoting.putExtra("lobbyCount", playerCount);//stores the number of players and passes it to the next activity
-                    startActivity(toVoting);//switches to the wait activity for the game
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });*/
-
-//<======THIS CODE IS RESPONSIBLE FOR RNG ROLE ASSIGNMENT, IT WORKS BUT WONT BE USED FOR DEMO PURPOSES, REMOVE COMMENT BEFORE SUBMISSION OF GITHUB LINK TO GTA=======>
+//<===========================RNG Role Assignment code, could be useful later===================================================>
 //        if(check == 0) { //add our role numbers to list
 //            Roles.add(0);
 //            Roles.add(1);
@@ -180,11 +163,4 @@ public class DiscussionActivity extends AppCompatActivity {
             }
         });
     }
-
-/*    private void createUser(DataSnapshot dataSnapshot){
-        MainActivity.thisUser = new User(dataSnapshot.child("name").getValue().toString());
-        MainActivity.thisUser.setIcon((Integer) dataSnapshot.child("icon").getValue());
-        MainActivity.thisUser.setPoll((Integer) dataSnapshot.child("poll").getValue());
-        MainActivity.thisUser.setRole((Integer) dataSnapshot.child("role").getValue());
-    }*/
 }
